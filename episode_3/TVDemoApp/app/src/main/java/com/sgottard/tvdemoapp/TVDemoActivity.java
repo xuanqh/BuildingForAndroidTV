@@ -195,9 +195,9 @@ public class TVDemoActivity extends Activity {
 	public VerticalGridView getVerticalGridView(Fragment fragment) {
 		try {
 			Class baseRowFragmentClass = getClassLoader().loadClass("android/support/v17/leanback/app/BaseRowFragment");
-			Method getVerticalGridViewMethod = baseRowFragmentClass.getDeclaredMethod("getVerticalGridView", null);
+			Method getVerticalGridViewMethod = baseRowFragmentClass.getDeclaredMethod("getVerticalGridView");
 			getVerticalGridViewMethod.setAccessible(true);
-			VerticalGridView gridView = (VerticalGridView) getVerticalGridViewMethod.invoke(fragment, null);
+			VerticalGridView gridView = (VerticalGridView) getVerticalGridViewMethod.invoke(fragment);
 
 			return gridView;
 

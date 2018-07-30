@@ -68,7 +68,7 @@ public class CustomRowsFragment extends RowsFragment {
 			for (int j = 0; j < NUM_COLS; j++) {
 				listRowAdapter.add(list.get(j % 5));
 			}
-			HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i], null);
+			HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i]);
 			rowsAdapter.add(new ListRow(header, listRowAdapter));
 		}
 

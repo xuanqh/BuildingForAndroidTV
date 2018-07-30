@@ -22,8 +22,10 @@ import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
-import android.support.v17.leanback.widget.OnItemClickedListener;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -68,7 +70,7 @@ public class TVVideoDetailsFragment extends DetailsFragment {
         selectedMovie = (Movie) getActivity().getIntent().getSerializableExtra(MOVIE);
         new DetailRowBuilderTask().execute(selectedMovie);
 
-        setOnItemClickedListener(getDefaultItemClickedListener());
+        setOnItemViewClickedListener(getDefaultItemClickedListener());
         updateBackground(selectedMovie.getBackgroundImageURI());
 
     }
@@ -139,7 +141,7 @@ public class TVVideoDetailsFragment extends DetailsFragment {
                 listRowAdapter.add(list.get(j % 5));
             }
 
-            HeaderItem header = new HeaderItem(0, subcategories[0], null);
+            HeaderItem header = new HeaderItem(0, subcategories[0]);
             adapter.add(new ListRow(header, listRowAdapter));
 
             setAdapter(adapter);
@@ -147,10 +149,10 @@ public class TVVideoDetailsFragment extends DetailsFragment {
 
     }
 
-    protected OnItemClickedListener getDefaultItemClickedListener() {
-        return new OnItemClickedListener() {
+    protected OnItemViewClickedListener getDefaultItemClickedListener() {
+        return new OnItemViewClickedListener() {
             @Override
-            public void onItemClicked(Object item, Row row) {
+            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (item instanceof Movie) {
                     Movie movie = (Movie) item;
                     Intent intent = new Intent(getActivity(), TVDetailsActivity.class);

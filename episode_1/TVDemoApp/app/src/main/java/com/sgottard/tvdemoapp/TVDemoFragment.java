@@ -11,10 +11,11 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
-import android.support.v17.leanback.widget.OnItemClickedListener;
-import android.support.v17.leanback.widget.OnItemSelectedListener;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -78,11 +79,11 @@ public class TVDemoFragment extends BrowseFragment {
             for (int j = 0; j < NUM_COLS; j++) {
                 listRowAdapter.add(list.get(j % 5));
             }
-            HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i], null);
+            HeaderItem header = new HeaderItem(i, MovieList.MOVIE_CATEGORY[i]);
             mRowsAdapter.add(new ListRow(header, listRowAdapter));
         }
 
-        HeaderItem gridHeader = new HeaderItem(i, "PREFERENCES", null);
+        HeaderItem gridHeader = new HeaderItem(i, "PREFERENCES");
 
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
@@ -122,8 +123,8 @@ public class TVDemoFragment extends BrowseFragment {
     }
 
     private void setupEventListeners() {
-        setOnItemSelectedListener(getDefaultItemSelectedListener());
-        setOnItemClickedListener(getDefaultItemClickedListener());
+        setOnItemViewSelectedListener(getDefaultItemSelectedListener());
+        setOnItemViewClickedListener(getDefaultItemClickedListener());
         setOnSearchClickedListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,10 +134,10 @@ public class TVDemoFragment extends BrowseFragment {
         });
     }
 
-    protected OnItemSelectedListener getDefaultItemSelectedListener() {
-        return new OnItemSelectedListener() {
+    protected OnItemViewSelectedListener getDefaultItemSelectedListener() {
+        return new OnItemViewSelectedListener() {
             @Override
-            public void onItemSelected(Object item, Row row) {
+            public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (item instanceof Movie) {
                     mBackgroundURI = ((Movie) item).getBackgroundImageURI();
                     startBackgroundTimer();
@@ -145,10 +146,10 @@ public class TVDemoFragment extends BrowseFragment {
         };
     }
 
-    protected OnItemClickedListener getDefaultItemClickedListener() {
-        return new OnItemClickedListener() {
+    protected OnItemViewClickedListener getDefaultItemClickedListener() {
+        return new OnItemViewClickedListener() {
             @Override
-            public void onItemClicked(Object item, Row row) {
+            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (item instanceof Movie) {
                     Movie movie = (Movie) item;
                     Log.d(TAG, "Item: " + item.toString());
@@ -157,12 +158,12 @@ public class TVDemoFragment extends BrowseFragment {
                     startActivity(intent);
                 }
                 else if (item instanceof String) {
-					if (((String) item).contains("Grid")) {
-						Intent intent = new Intent(getActivity(), TVGridActivity.class);
-						startActivity(intent);
-					} else {
-						Toast.makeText(getActivity(), (String) item, Toast.LENGTH_SHORT).show();
-					}
+                    if (((String) item).contains("Grid")) {
+                        Intent intent = new Intent(getActivity(), TVGridActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getActivity(), (String) item, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         };

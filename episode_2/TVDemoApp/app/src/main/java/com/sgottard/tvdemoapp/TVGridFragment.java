@@ -6,9 +6,11 @@ import android.os.Handler;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.VerticalGridFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
-import android.support.v17.leanback.widget.OnItemClickedListener;
-import android.support.v17.leanback.widget.OnItemSelectedListener;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
+import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.VerticalGridPresenter;
 import android.util.DisplayMetrics;
 
@@ -89,23 +91,23 @@ public class TVGridFragment extends VerticalGridFragment {
 	}
 
 	private void setupEventListeners() {
-		setOnItemSelectedListener(getDefaultItemSelectedListener());
-		setOnItemClickedListener(getDefaultItemClickedListener());
+		setOnItemViewSelectedListener(getDefaultItemSelectedListener());
+		setOnItemViewClickedListener(getDefaultItemClickedListener());
 	}
 
-	protected OnItemSelectedListener getDefaultItemSelectedListener() {
-		return new OnItemSelectedListener() {
+	protected OnItemViewSelectedListener getDefaultItemSelectedListener() {
+		return new OnItemViewSelectedListener() {
 			@Override
-			public void onItemSelected(Object item, Row row) {
-				// item is selected
+			public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+
 			}
 		};
 	}
 
-	protected OnItemClickedListener getDefaultItemClickedListener() {
-		return new OnItemClickedListener() {
+	protected OnItemViewClickedListener getDefaultItemClickedListener() {
+		return new OnItemViewClickedListener() {
 			@Override
-			public void onItemClicked(Object item, Row row) {
+			public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
 				Utils.showToast(getActivity(), "Item clicked");
 			}
 		};

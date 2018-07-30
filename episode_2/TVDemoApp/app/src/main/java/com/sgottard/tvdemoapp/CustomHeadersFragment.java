@@ -6,8 +6,8 @@ import android.support.v17.leanback.app.HeadersFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
-import android.support.v17.leanback.widget.OnItemSelectedListener;
 import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowHeaderPresenter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +25,7 @@ public class CustomHeadersFragment extends HeadersFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		customSetBackground(R.color.fastlane_background);
-		setOnItemSelectedListener(getDefaultItemSelectedListener());
+		setOnHeaderViewSelectedListener(getDefaultItemSelectedListener());
 		setHeaderAdapter();
 	}
 
@@ -36,7 +36,7 @@ public class CustomHeadersFragment extends HeadersFragment {
 
 		int id = 0;
 		for (int i = 0; i < fragments.size(); i++) {
-			HeaderItem header = new HeaderItem(id, "Category " + i, null);
+			HeaderItem header = new HeaderItem(id, "Category " + i);
 			ArrayObjectAdapter innerAdapter = new ArrayObjectAdapter();
 			innerAdapter.add(fragments.get(i));
 			adapter.add(id, new ListRow(header, innerAdapter));
@@ -46,10 +46,10 @@ public class CustomHeadersFragment extends HeadersFragment {
 		setAdapter(adapter);
 	}
 
-	private OnItemSelectedListener getDefaultItemSelectedListener() {
-		return new OnItemSelectedListener() {
+	private OnHeaderViewSelectedListener getDefaultItemSelectedListener() {
+		return new OnHeaderViewSelectedListener() {
 			@Override
-			public void onItemSelected(Object o, Row row) {
+			public void onHeaderSelected(RowHeaderPresenter.ViewHolder viewHolder, Row row) {
 				Object obj = ((ListRow) row).getAdapter().get(0);
 				getFragmentManager().beginTransaction().replace(R.id.rows_container, (Fragment) obj).commit();
 			}
